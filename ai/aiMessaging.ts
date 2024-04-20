@@ -16,7 +16,7 @@ const ROLE_TRANSFORMATIONS: TransformationDict = {
     'human': 'assistant'   // Should not occur
 }
 
-async function answerMessage(conversation: ConversationItem) {
+export async function answerMessage(conversation: ConversationItem) {
     const messages: MessageItem[] = getMessages(conversation.id);
     const aiMessage = await askAI(messages);
     if (aiMessage === null) {
@@ -29,11 +29,12 @@ async function answerMessage(conversation: ConversationItem) {
         time: Date.now(),
     }
 
-    appendMessage(answer);
+    // appendMessage(answer);
+    return answer
 }
 
 // Register message listener for bot level conversations
-registerListener('bot', answerMessage);
+// registerListener('bot', answerMessage);
 
 function notASystemMessage(message: MessageItem) {
     return message.sender != 'system';

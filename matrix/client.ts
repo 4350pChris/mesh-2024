@@ -2,6 +2,7 @@ import "dotenv/config"
 import * as sdk from "matrix-js-sdk"
 import { getConversation, putConversation, type ConversationItem } from "../database/conversationItems"
 import { appendMessage } from "../database/messageItems"
+import { answerMessage } from '../ai/aiMessaging'
 
 const client = sdk.createClient({
   baseUrl: process.env.MATRIX_HOST!,
@@ -41,7 +42,7 @@ function parseMessage(message: string) {
 }
 
 function receiveMessages() {
-  client.on(sdk.RoomEvent.Timeline, (event, room, toStartOfTimeline) => {
+  client.on(sdk.RoomEvent.Timeline, async (event, room, toStartOfTimeline) => {
     const eventType = event.getType()
     const roomId = room?.roomId
     if (eventType !== "m.room.message") return
@@ -76,6 +77,12 @@ function receiveMessages() {
       text: parsedMsg,
       time: Date.now(),
     })
+
+    const answer = await answerMessage(convo)
+
+    await sendMessage(roomId, answer.text)
+
+    // appendMessage(answer)
   })
 }
 
