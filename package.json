@@ -1,0 +1,36 @@
+{
+  "name": "my-app",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx express-entry.ts",
+    "build": "vite build",
+    "preview": "NODE_ENV=production tsx express-entry.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "@types/express": "^4.17.21",
+    "@types/react": "^18.2.78",
+    "@types/react-dom": "^18.2.25",
+    "tailwindcss": "^3.4.3",
+    "postcss": "^8.4.38",
+    "autoprefixer": "^10.4.19",
+    "daisyui": "^4.10.1"
+  },
+  "dependencies": {
+    "@hattip/adapter-node": "^0.0.45",
+    "express": "^4.19.2",
+    "tsx": "^4.7.2",
+    "vite": "^5.2.8",
+    "vike": "^0.4.168",
+    "@vitejs/plugin-react": "^4.2.1",
+    "cross-fetch": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vike-react": "^0.4.6",
+    "telefunc": "^0.1.71"
+  }
+}
