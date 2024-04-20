@@ -1,24 +1,10 @@
-import React, { useState } from "react";
 import {Chat} from "./Chat";
 
 export default function Page() {
   return (
     <>
-      <h1>To-do List</h1>
-      <Chat />
-      <Counter />
+      <h1 className="text-4xl">Customer Chat</h1>
+      <Chat conversationId='customer' />
     </>
-  );
-}
-
-function Counter() {
-  const [count, setCount] = useState(0);
-  return (
-    <div>
-      This page is interactive:
-      <button type="button" onClick={() => setCount((count) => count + 1)}>
-        Counter {count}
-      </button>
-    </div>
   );
 }

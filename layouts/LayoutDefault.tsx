@@ -3,7 +3,6 @@ import "./style.css";
 import "./tailwind.css";
 import React from "react";
 import logoUrl from "../assets/logo.svg";
-import { Link } from "../components/Link.js";
 
 export default function LayoutDefault({
   children,
@@ -12,13 +11,6 @@ export default function LayoutDefault({
 }) {
   return (
     <div className="flex max-w-5xl m-auto">
-      <Sidebar>
-        <Logo />
-        <Link href="/">Welcome</Link>
-        <Link href="/todo">Todo (telefunc)</Link>
-
-        <Link href="/star-wars">Data Fetching</Link>
-      </Sidebar>
       <Content>{children}</Content>
     </div>
   );

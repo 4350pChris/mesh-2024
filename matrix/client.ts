@@ -9,10 +9,14 @@ const client = sdk.createClient({
   accessToken: process.env.MATRIX_ACCESS_TOKEN,
 })
 
+let started = false
+
 async function startClient() {
-  await client.startClient({ initialSyncLimit: 10 })
+  if (started) return
+  await client.startClient()
   receiveMessages()
   console.log("Matrix client started")
+  started = true
 }
 
 function closeClient() {
@@ -47,15 +51,16 @@ function receiveMessages() {
     const message = event.getContent().body
 
     const parsedMsg = parseMessage(message)
+    const userId = "customer"
 
     console.log(`Received message from ${sender} in room ${roomId}: ${parsedMsg}`)
 
-    let convo: ConversationItem | null = getConversation(roomId)
+    let convo: ConversationItem | null = getConversation(userId)
 
     if (!convo) {
       convo = {
         active: true,
-        id: roomId,
+        id: userId,
         level: "bot",
         name: sender!,
       }

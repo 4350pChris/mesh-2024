@@ -1,7 +1,17 @@
+import { startClient } from "../../matrix/client"
 import {appendMessage, getMessages} from "../../database/messageItems";
+import { getConversation } from "../../database/conversationItems";
+
+export async function startChat() {
+  await startClient();
+}
 
 export async function getConversationMessages(conversation_id: string) {
   return getMessages(conversation_id);
+}
+
+export async function getConversationForUser(conversation_id: string) {
+  return getConversation(conversation_id)
 }
 
 export async function appendConversationMessage(conversation_id: string, text: string) {

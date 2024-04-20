@@ -4,7 +4,6 @@ import { createMiddleware } from "@hattip/adapter-node";
 import express, { type Request } from "express";
 import { telefunc } from "telefunc";
 import { renderPage } from "vike/server";
-import { closeClient, startClient, } from "./matrix/client"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,7 +15,6 @@ const hmrPort = process.env.HMR_PORT
   : 24678;
 
 startServer();
-startClient();
 
 async function startServer() {
   const app = express();
@@ -82,18 +80,8 @@ async function startServer() {
     }
   });
 
-  const server = app.listen(port, () => {
+  app.listen(port, () => {
     console.log(`Server listening on http://localhost:${port}`);
   });
-
-  function closeServer() {
-    closeClient();
-    server.closeAllConnections();
-    server.close();
-    process.exit(0);
-  }
-
-  process.on("SIGTERM", closeServer);
-  process.on("SIGINT", closeServer);
 
 }
