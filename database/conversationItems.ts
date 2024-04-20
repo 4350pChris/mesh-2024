@@ -1,5 +1,5 @@
 type ConversationLevel = 'bot' | 'human';
-type ConversationItem = { id: string, name: string, level: ConversationLevel, active: boolean };
+type ConversationItem = { id: string, name: string, level: ConversationLevel, active: boolean, summary?: string};
 // level: 'bot' | 'human'
 // name: customer name
 
