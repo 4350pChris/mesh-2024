@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { useData } from "vike-react/useData";
-import type { Data } from "./+data.js";
-import { TodoList } from "./TodoList.js";
+import {Chat} from "./Chat";
 
 export default function Page() {
-  const todoItemsInitial = useData<Data>();
   return (
     <>
       <h1>To-do List</h1>
-      <TodoList todoItemsInitial={todoItemsInitial} />
+      <Chat />
       <Counter />
     </>
   );
