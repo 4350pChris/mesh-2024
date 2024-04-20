@@ -1,8 +1,7 @@
 import OpenAI from "openai";
 import {ConversationItem} from "../database/conversationItems.js";
 import {appendMessage, getMessages, MessageItem, MessageSender, registerListener} from "../database/messageItems";
-import Chat from "openai";
-import ChatCompletionMessageParam = Chat.ChatCompletionMessageParam;
+import ChatCompletionMessageParam = OpenAI.ChatCompletionMessageParam;
 
 const openai = new OpenAI();
 
