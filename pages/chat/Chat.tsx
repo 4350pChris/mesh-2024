@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import type {MessageItem} from "../../database/messageItems";
 import {getConversationMessages, getConversationSummary, getConversationForUser} from "./Chat.telefunc.js";
 import { usePollingEffect } from "../../utils/usePollingEffect";
@@ -19,7 +19,7 @@ export function Chat(props: { conversationId: string }) {
     const [messages, setMessages] = useState<MessageItem[]>([]);
     const [summary, setSummary ] = useState('');
     const [draft, setDraft] = useState('');
-    const [chat] = useState(() => React.createRef<HTMLDivElement>());
+    const chatRef = useRef<HTMLDivElement>(null);
     const [conversation, setConversation] = useState<ConversationItem | null>(null);
 
     usePollingEffect(() => {
@@ -28,8 +28,12 @@ export function Chat(props: { conversationId: string }) {
         loadMessages(conversationId, setMessages);
     }, [], { interval: 1000 })
 
+    useEffect(() => {
+        chatRef.current?.scrollIntoView({behavior: 'smooth', block: 'end'});
+    }, [messages.length])
+
     return (
-        <div className="flex flex-col gap-4" ref={chat}>
+        <div className="flex flex-col gap-4" ref={chatRef}>
             {messages.map((message, index) => (
                 <div key={index} className={`chat ${message.sender === 'user' ? 'chat-start' : 'chat-end'}`}>
                     <div className="chat-header">
