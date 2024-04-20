@@ -1,4 +1,5 @@
-type ConversationItem = { id: string, name: string, level: string, active: boolean };
+type ConversationLevel = 'bot' | 'human';
+type ConversationItem = { id: string, name: string, level: ConversationLevel, active: boolean };
 // level: 'bot' | 'human'
 // name: customer name
 
@@ -14,6 +15,7 @@ function putConversation(message: ConversationItem) {
 function getConversations(only_active: boolean=true, limit: number=50) {
   let messages = !only_active ? messageItems : messageItems.filter(m => m.active);
   messages = messages.slice(0, limit);
+  return messages;
 }
 
 // Gets specific conversations
@@ -26,4 +28,4 @@ function getConversation(id: string) {
 }
 
 export { putConversation, getConversations, getConversation };
-export type { ConversationItem };
+export type { ConversationItem, ConversationLevel };
