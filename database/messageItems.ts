@@ -1,5 +1,5 @@
 type MessageItem = { conversation_id: string, text: string, sender: string, time: number };
-// sender: 'user' | 'bot' | 'human'
+// sender: 'user' | 'bot' | 'human' | 'system'
 // time: utc time
 
 const messageItems: MessageItem[] = [];
