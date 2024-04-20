@@ -20,7 +20,7 @@ function appendMessage(message: MessageItem) {
     return;
   }
   const conversation: ConversationItem | null = getConversation(message.conversation_id);
-  if(conversation == null) {
+  if(conversation == null || !conversation.active) {
     return;
   }
   messageListener.forEach(listener => {
