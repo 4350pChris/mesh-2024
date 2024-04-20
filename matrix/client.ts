@@ -1,6 +1,6 @@
 import "dotenv/config"
 import * as sdk from "matrix-js-sdk"
-import { getConversation, putConversation } from "../database/conversationItems"
+import { getConversation, putConversation, type ConversationItem } from "../database/conversationItems"
 import { appendMessage } from "../database/messageItems"
 
 const client = sdk.createClient({
@@ -50,15 +50,23 @@ function receiveMessages() {
 
     console.log(`Received message from ${sender} in room ${roomId}: ${parsedMsg}`)
 
-    const convo = getConversation(roomId) ?? putConversation({
-      active: true,
-      id: roomId,
-      level: "human",
-      name: sender!,
-    })
+    let convo: ConversationItem | null = getConversation(roomId)
+
+    if (!convo) {
+      convo = {
+        active: true,
+        id: roomId,
+        level: "bot",
+        name: sender!,
+      }
+
+      putConversation(convo)
+    }
+
+    // Check if we send this to GPT or support I guess?
 
     appendMessage({
-      conversation_id: roomId,
+      conversation_id: convo.id,
       sender: "user",
       text: parsedMsg,
       time: Date.now(),
