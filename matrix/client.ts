@@ -7,7 +7,7 @@ import {
 } from "../database/conversationItems";
 import {
   MessageSender,
-  appendMessage,
+  appendMessage, registerListener, MessageItem, getMessages,
 } from "../database/messageItems";
 import { answerMessage } from "../ai/aiMessaging";
 import { logger } from "matrix-js-sdk/lib/logger";
@@ -25,9 +25,12 @@ let started = false;
 async function startClient() {
   if (started) return;
 
+  registerListener('human', messageListener, true);
+
   await client.startClient();
   await backfillMessages();
   receiveMessages();
+
   console.log("Matrix client started");
   started = true;
 }
@@ -56,7 +59,7 @@ async function handleReceivedMessage(
     event.getSender() === process.env.MATRIX_USER_ID ? "bot" : "user";
 
   // TODO: this is a hack as we have no way of mapping different rooms to the same underlying user
-  const conversation_id = "customer";
+  const conversation_id = roomId;
 
   let convo: ConversationItem | null = getConversation(conversation_id);
 
@@ -86,9 +89,14 @@ async function handleReceivedMessage(
 
   console.log("-------------\n\nAnswering message\n\n-------------");
 
-  const answer = await answerMessage(convo);
+  //const answer = await answerMessage(convo);
 
-  await sendMessage(roomId, answer.text);
+}
+
+async function messageListener(conversation: ConversationItem) {
+  const messages: MessageItem[] = getMessages(conversation.id);
+  console.log("LOL123: " + messages[0].text);
+  await sendMessage(conversation.id, messages[0].text);
 }
 
 /**

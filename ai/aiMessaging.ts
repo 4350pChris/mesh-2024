@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { ConversationItem } from "../database/conversationItems.js";
-import { getMessages, MessageItem, MessageSender } from "../database/messageItems";
+import {getMessages, MessageItem, MessageSender, registerListener} from "../database/messageItems";
 import ChatCompletionMessageParam = OpenAI.ChatCompletionMessageParam;
 
 const openai = new OpenAI();
@@ -35,7 +35,7 @@ export async function answerMessage(conversation: ConversationItem) {
 }
 
 // Register message listener for bot level conversations
-// registerListener('bot', answerMessage);
+registerListener('bot', answerMessage);
 
 function notASystemMessage(message: MessageItem) {
     return message.sender != 'system';

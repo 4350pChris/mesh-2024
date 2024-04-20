@@ -2,12 +2,11 @@ import {ConversationItem, ConversationLevel, getConversation, getConversations} 
 
 type MessageSender = 'user' | 'bot' | 'human' | 'system';
 type MessageItem = { conversation_id: string, text: string, sender: MessageSender, time: number };
-// sender: 'user' | 'bot' | 'human' | 'system'
 // time: utc time
 
 // Message listeners storage
 type MessageListenerCallback = (conversation: ConversationItem) => void;
-type MessageListener = {level: ConversationLevel, callback: MessageListenerCallback};
+type MessageListener = {level: ConversationLevel, callback: MessageListenerCallback, receiveResponses: boolean};
 
 // Message item storge
 const messageItems: MessageItem[] = [];
@@ -16,14 +15,17 @@ const messageListener: MessageListener[] = [];
 // Append a message to the conversation
 function appendMessage(message: MessageItem) {
   messageItems.push(message);
-  if(message.sender != 'bot') {
-    return;
-  }
   const conversation: ConversationItem | null = getConversation(message.conversation_id);
   if(conversation == null || !conversation.active) {
     return;
   }
   messageListener.forEach(listener => {
+    if(message.sender !== 'user') {
+      if(listener.receiveResponses) {
+        listener.callback(conversation);
+      }
+      return;
+    }
     if(listener.level != conversation.level) {
       return;
     }
@@ -40,10 +42,11 @@ function getMessages(conversation_id: string, limit: number=50) {
 }
 
 // Register a message listener
-function registerListener(level: ConversationLevel, callback: MessageListenerCallback) {
+function registerListener(level: ConversationLevel, callback: MessageListenerCallback, receiveResponses: boolean=false) {
   messageListener.push({
     level,
     callback,
+    receiveResponses
   });
 }
 
