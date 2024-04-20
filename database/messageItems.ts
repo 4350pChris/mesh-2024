@@ -48,4 +48,4 @@ function registerListener(level: ConversationLevel, callback: MessageListenerCal
 }
 
 export { appendMessage, getMessages, registerListener };
-export type { MessageItem };
+export type { MessageItem, MessageSender };
