@@ -47,5 +47,5 @@ function registerListener(level: ConversationLevel, callback: MessageListenerCal
   });
 }
 
-export { appendMessage, getMessages };
+export { appendMessage, getMessages, registerListener };
 export type { MessageItem };
