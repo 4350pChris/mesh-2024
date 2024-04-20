@@ -27,9 +27,7 @@ function closeClient() {
  */
 function parseMessage(message: string) {
   const parsed = message.split("\n\n");
-  if (parsed.length < 3) return
-
-  console.log(parsed)
+  if (parsed.length < 3) return message
 
   const [senders, subject, ...msg] = parsed
   if (!senders.includes("@")) return message
@@ -41,15 +39,30 @@ function parseMessage(message: string) {
 function receiveMessages() {
   client.on(sdk.RoomEvent.Timeline, (event, room, toStartOfTimeline) => {
     const eventType = event.getType()
+    const roomId = room?.roomId
     if (eventType !== "m.room.message") return
+    if (!roomId) return
 
     const sender = event.getSender()
     const message = event.getContent().body
-    const roomId = room?.roomId
 
     const parsedMsg = parseMessage(message)
 
     console.log(`Received message from ${sender} in room ${roomId}: ${parsedMsg}`)
+
+    const convo = getConversation(roomId) ?? putConversation({
+      active: true,
+      id: roomId,
+      level: "human",
+      name: sender!,
+    })
+
+    appendMessage({
+      conversation_id: roomId,
+      sender: "user",
+      text: parsedMsg,
+      time: Date.now(),
+    })
   })
 }
 
