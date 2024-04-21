@@ -23,7 +23,7 @@ export function Header() {
           />
         </div>
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">🔆 108 Stars</a>
+          <a className="btn btn-ghost text-xl">🌍 108 Planet Points</a>
         </div>
         <div className="dropdown dropdown-end">
           <div

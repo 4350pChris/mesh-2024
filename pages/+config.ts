@@ -8,6 +8,6 @@ export default {
   Layout,
   Head,
   // <title>
-  title: "My Vike App",
+  title: "Trumpfi",
   extends: vikeReact,
 } satisfies Config;
