@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from "react";
 import type {MessageItem} from "../../database/messageItems";
 import {getConversationMessages, getConversationSummary, getConversationForUser, appendConversationMessage} from "./Chat.telefunc.js";
 import { usePollingEffect } from "../../utils/usePollingEffect";
-import type { ConversationItem } from '../../database/conversationItems';
+import { type ConversationItem } from '../../database/conversationItems';
 
 async function loadMessages(conversation_id: string, callback: React.Dispatch<React.SetStateAction<MessageItem[]>>) {
     const messages = await getConversationMessages(conversation_id);
@@ -48,10 +48,10 @@ export function Chat(props: { conversationId: string }) {
             <form className="flex gap-2" onSubmit={async (e) => {
                 e.preventDefault();
                 if (draft === '') return;
-                appendConversationMessage(conversationId, draft);
+                await appendConversationMessage(conversation!, draft, messages);
                 setDraft('');
             }}>
-                <input type="text" className="flex-1" value={draft} onChange={(e) => setDraft(e.target.value)} />
+                <input type="text" className="flex-1 input input-bordered" value={draft} onChange={(e) => setDraft(e.target.value)} />
                 <button type="submit" className="btn">Send</button>
             </form>
         </div>

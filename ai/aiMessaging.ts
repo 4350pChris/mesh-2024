@@ -41,19 +41,16 @@ function notASystemMessage(message: MessageItem) {
     return message.sender != 'system';
 }
 
-function transformMessages(message: MessageItem): ChatCompletionMessageParam {
+function transformMessages(messages: MessageItem[]): ChatCompletionMessageParam[] {
     // @ts-expect-error
-    return {
+    return messages.filter(notASystemMessage).map(message => ({
         'role': ROLE_TRANSFORMATIONS[message.sender],
         'content': message.text,
-    };
+    }))
 }
 
 async function askAI(messageItems: MessageItem[], conversation: ConversationItem) {
-    const transformedMessages = messageItems
-        .filter(notASystemMessage)
-        .map(transformMessages)
-        .reverse();
+    const transformedMessages = transformMessages(messageItems)
     const response = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
@@ -118,7 +115,7 @@ async function askAI(messageItems: MessageItem[], conversation: ConversationItem
     console.log('Assistant: ', assistantMessage);
 
     if (assistantMessage === '+') {
-        await elevateLevel(transformedMessages, conversation);
+        await elevateLevel(messageItems, conversation);
         assistantMessage = 'The support case has now been redirected to a support employee. '
     }
 
@@ -126,12 +123,12 @@ async function askAI(messageItems: MessageItem[], conversation: ConversationItem
     return assistantMessage;
 }
 
-async function elevateLevel(transformedMessages: OpenAI.Chat.Completions.ChatCompletionMessageParam[], conversation: ConversationItem) {
+export async function elevateLevel(messages: MessageItem[], conversation: ConversationItem) {
     const response = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
+            ...transformMessages(messages),
             {
-                ...transformedMessages,
                 role: "user", content: "Summarize the conversation and divide it into the following structure:\n" +
                     "1. Customer name \n" +
                     "2. Serial number of device \n" +
