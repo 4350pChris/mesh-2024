@@ -2,7 +2,6 @@ import {ConversationItem, ConversationLevel, getConversation, getConversations} 
 
 type MessageSender = 'user' | 'bot' | 'human' | 'system';
 type MessageItem = { conversation_id: string, text: string, sender: MessageSender, time: number };
-// sender: 'user' | 'bot' | 'human' | 'system'
 // time: utc time
 
 // Message listeners storage
