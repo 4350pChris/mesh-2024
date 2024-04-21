@@ -1,3 +1,4 @@
+import "dotenv/config";
 import OpenAI from "openai";
 import { ConversationItem } from "../database/conversationItems.js";
 import { getMessages, MessageItem, MessageSender } from "../database/messageItems";

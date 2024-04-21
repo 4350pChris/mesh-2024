@@ -19,8 +19,3 @@ export async function appendConversationMessage(conversation: ConversationItem, 
   await elevateLevel(messages, conversation)
   return sendMessage(conversation!.roomId, text)
 }
-
-export async function getConversationSummary(conversation_id: string) {
-  // TODO: ADD THIS SHIT
-  return 'This is a test summary of what a customer chat might be summarized as';
-}
