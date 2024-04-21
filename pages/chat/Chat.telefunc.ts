@@ -1,6 +1,7 @@
-import { startClient } from "../../matrix/client"
-import {appendMessage, getMessages} from "../../database/messageItems";
-import { getConversation } from "../../database/conversationItems";
+import { elevateLevel } from "../../ai/aiMessaging"
+import { startClient, sendMessage } from "../../matrix/client"
+import { MessageItem, getMessages } from "../../database/messageItems";
+import { ConversationItem, getConversation } from "../../database/conversationItems";
 
 export async function startChat() {
   await startClient();
@@ -14,13 +15,9 @@ export async function getConversationForUser(conversation_id: string) {
   return getConversation(conversation_id)
 }
 
-export async function appendConversationMessage(conversation_id: string, text: string) {
-  appendMessage({
-    'sender': 'human',
-    'time': Date.now(),
-    'text': text,
-    'conversation_id': conversation_id,
-  });
+export async function appendConversationMessage(conversation: ConversationItem, text: string, messages: MessageItem[]) {
+  await elevateLevel(messages, conversation)
+  return sendMessage(conversation!.roomId, text)
 }
 
 export async function getConversationSummary(conversation_id: string) {

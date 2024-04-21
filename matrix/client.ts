@@ -63,6 +63,7 @@ async function handleReceivedMessage(
   if (!convo) {
     convo = {
       active: true,
+      roomId,
       id: conversation_id,
       level: "bot",
       name: "Customer Chat",
@@ -77,10 +78,10 @@ async function handleReceivedMessage(
     conversation_id,
     sender,
     text: parsedMsg,
-    time: event.getTs(),
+    time: Date.now(),
   });
 
-  if (doNotAnswer || sender === "bot") return;
+  if (doNotAnswer || sender === "bot" || convo.level === "human") return;
 
   console.log(parsedMsg)
 
