@@ -1,9 +1,7 @@
-import React from "react";
-
 export function Header() {
   return (
     <div
-      className="navbar bg-base-100 bg-base-100 shadow-xl"
+      className="navbar bg-base-100 shadow-xl"
       style={{ borderRadius: "10px" }}
     >
       <div className="flex-1">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 interface CardProps {
   picture: string; // Prop for the image URL

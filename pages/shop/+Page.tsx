@@ -1,12 +1,11 @@
-import React from "react";
-import { Card } from "./Card.jsx";
-import { Header } from "./Header.jsx";
-import { Footer } from "./Footer.jsx";
+import { Card } from "../../components/shop/Card.jsx";
+import { Header } from "../../components/shop/Header.jsx";
+import { Footer } from "../../components/shop/Footer.jsx";
 
 export default function Page() {
   return (
     <>
-      <ul className="space-evenly">
+      <div>
         <Header></Header>
         <div className="flex flex-row m-8">
           <Card picture={"/hoodie.jpg"} name={"Donate"} tag={">5 Stars"} />
@@ -22,7 +21,7 @@ export default function Page() {
           <Card picture={"/teddy.jpg"} name={"Merchandise"} tag={">15 Stars"} />
           <Card picture={"/discount.jpg"} name={"Discount"} tag={">35 Stars"} />
         </div>
-      </ul>
+      </div>
       <Footer />
     </>
   );
