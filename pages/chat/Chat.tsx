@@ -37,7 +37,7 @@ export function Chat(props: { conversationId: string }) {
             {messages.map((message, index) => (
                 <div key={index} className={`chat ${message.sender === 'user' ? 'chat-start' : 'chat-end'}`}>
                     <div className="chat-header">
-                        {conversation?.id}
+                        {message.sender === 'user' ? 'User' : message.sender === 'bot' ? 'Bot' : 'Person'}
                         <time className="ml-2 text-xs opacity-50">{new Date(message.time).toLocaleString()}</time>
                     </div>
                     <div className="chat-bubble">
