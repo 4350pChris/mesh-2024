@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect} from "react";
 import type {MessageItem} from "../../database/messageItems";
-import {getConversationMessages, getConversationSummary, getConversationForUser} from "./Chat.telefunc.js";
+import {getConversationMessages, getConversationSummary, getConversationForUser, appendConversationMessage} from "./Chat.telefunc.js";
 import { usePollingEffect } from "../../utils/usePollingEffect";
 import type { ConversationItem } from '../../database/conversationItems';
 
@@ -34,7 +34,6 @@ export function Chat(props: { conversationId: string }) {
 
     return (
         <div className="flex flex-col gap-4" ref={chatRef}>
-            {messages.length}
             {messages.map((message, index) => (
                 <div key={index} className={`chat ${message.sender === 'user' ? 'chat-start' : 'chat-end'}`}>
                     <div className="chat-header">
@@ -46,6 +45,15 @@ export function Chat(props: { conversationId: string }) {
                     </div>
                 </div>
             ))}
+            <form className="flex gap-2" onSubmit={async (e) => {
+                e.preventDefault();
+                if (draft === '') return;
+                appendConversationMessage(conversationId, draft);
+                setDraft('');
+            }}>
+                <input type="text" className="flex-1" value={draft} onChange={(e) => setDraft(e.target.value)} />
+                <button type="submit" className="btn">Send</button>
+            </form>
         </div>
     );
 }
