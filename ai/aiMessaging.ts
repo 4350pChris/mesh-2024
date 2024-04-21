@@ -116,7 +116,8 @@ async function askAI(messageItems: MessageItem[], conversation: ConversationItem
 
     if (assistantMessage === '+') {
         await elevateLevel(messageItems, conversation);
-        assistantMessage = 'The support case has now been redirected to a support employee. '
+        assistantMessage = 'I am sorry that I couldn\'t help with your issue. I have gone ahead and redirected ' +
+            'your case to a support employee who will be able to help you further.'
     }
 
     // Return the assistant's message
