@@ -34,6 +34,7 @@ export function Chat(props: { conversationId: string }) {
 
     return (
         <div className="flex flex-col gap-4" ref={chatRef}>
+            {messages.length}
             {messages.map((message, index) => (
                 <div key={index} className={`chat ${message.sender === 'user' ? 'chat-start' : 'chat-end'}`}>
                     <div className="chat-header">
